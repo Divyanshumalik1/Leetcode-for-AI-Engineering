@@ -1,0 +1,10 @@
+# Base packages for the tracker's Python templates.
+# Add packages per problem as you need them (openai, anthropic, langgraph, llama-index, boto3, ...),
+# then pin them here so CI can run your tests too.
+pytest
+numpy
+httpx
+fastapi
+uvicorn
+pydantic
+python-dotenv

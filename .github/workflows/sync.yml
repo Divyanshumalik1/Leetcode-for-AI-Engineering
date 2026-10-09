@@ -1,0 +1,48 @@
+# Keeps README checkboxes and the progress table in sync with your problem folders,
+# even if you forget to run `npm run sync` before pushing. Also runs the offline tests.
+name: Sync progress
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/fl.mjs sync
+      - name: Commit README if it changed
+        run: |
+          if ! git diff --quiet README.md; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "chore: sync progress"
+            git push
+          fi
+
+  test:
+    runs-on: ubuntu-latest
+    # Problems in progress will have failing tests; that shouldn't block anything.
+    # Tests marked @pytest.mark.live are skipped here (no API keys in CI).
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npx vitest run

@@ -1,0 +1,24 @@
+{
+  "name": "ai-engineering-leetcode",
+  "private": true,
+  "type": "module",
+  "description": "Hands-on AI engineering practice bank: LLMs, RAG, agents, MCP, evals, AWS and Azure",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "new": "node scripts/fl.mjs new",
+    "t": "node scripts/fl.mjs test",
+    "play": "node scripts/fl.mjs play",
+    "bench": "node scripts/fl.mjs bench",
+    "log": "node scripts/fl.mjs log",
+    "reset": "node scripts/fl.mjs reset",
+    "today": "node scripts/fl.mjs today",
+    "sync": "node scripts/fl.mjs sync",
+    "services:up": "docker compose up -d",
+    "services:down": "docker compose down"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.3"
+  }
+}
