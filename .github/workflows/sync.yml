@@ -4,7 +4,7 @@ name: Sync progress
 
 on:
   push:
-    branches: [main]
+    branches: [practice]
   workflow_dispatch:
 
 permissions:
