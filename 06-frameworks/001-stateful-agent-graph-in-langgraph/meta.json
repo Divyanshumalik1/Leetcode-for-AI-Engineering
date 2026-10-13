@@ -1,0 +1,16 @@
+{
+  "question": "Build a stateful agent graph in LangGraph",
+  "key": "build a stateful agent graph in langgraph",
+  "section": 20,
+  "kind": "code",
+  "slug": "stateful-agent-graph-in-langgraph",
+  "module": "stateful_agent_graph_in_langgraph",
+  "created": "2026-10-13",
+  "legacy": true,
+  "langs": {
+    "py": {
+      "dir": ".",
+      "attempts": []
+    }
+  }
+}

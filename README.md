@@ -6,8 +6,10 @@ Every item ends in something you can run: a repo, a module, a benchmark, an expe
 
 <!-- badges:start -->
 ![Questions](https://img.shields.io/badge/questions-555-blue)
-![Started](https://img.shields.io/badge/started-0-orange)
-![Mastered](https://img.shields.io/badge/mastered-0%2F555-brightgreen)
+![Started](https://img.shields.io/badge/started-1-orange)
+![Python](https://img.shields.io/badge/Python-0%20mastered-informational)
+![TypeScript](https://img.shields.io/badge/TypeScript-0%20mastered-informational)
+![Done](https://img.shields.io/badge/done-0%2F555-brightgreen)
 <!-- badges:end -->
 
 ---
@@ -17,6 +19,8 @@ Every item ends in something you can run: a repo, a module, a benchmark, an expe
 **Don't try to do everything.** Start with the [⭐ Mandatory 30](#-the-mandatory-30), then do the rest of the ⭐ questions (107 in total), following the [progression](#-the-progression). Treat the rest as depth and variation drills.
 
 ### The 3-attempt rule
+
+The tracker marks a language mastered on your first `pass`, but every attempt is logged, so this rule still works as a practice habit.
 
 | Attempt | Rules | Goal |
 |---|---|---|
@@ -32,9 +36,10 @@ You can **build it**, **test it**, **evaluate it with real numbers**, **explain 
 
 | Mark | Meaning |
 |---|---|
-| `[x]` | Mastered — ticked automatically by the tracker |
+| `[x]` | Done: mastered in every language you chose for that question (ticked automatically) |
 | 📂 | Link to your solution folder |
-| ⚪ 🔴 🟡 🟢 | Not attempted yet / last attempt failed / partial / passed |
+| `py ✅ (2)` | Mastered in Python, after 2 attempts |
+| `ts 🟡 (1)` | TypeScript: 1 attempt so far, last one partial (🔴 failed, ⚪ not attempted yet) |
 | ⭐ | Most important: the Mandatory 30 plus the other core questions (107 in total) |
 | 🆕 | Added beyond the original 210 |
 
@@ -51,7 +56,7 @@ You can **build it**, **test it**, **evaluate it with real numbers**, **explain 
 
 ### Practical tips
 
-- **Language:** Python first, since most AI tooling is Python-first. Section 25 covers the TypeScript stack.
+- **Languages:** practice in Python and TypeScript (see [Two languages](#two-languages-python-and-typescript)). Python has the widest AI tooling; most model SDKs, LangChain, LangGraph and the cloud SDKs also have TypeScript versions.
 - **Keep API costs low:** develop against small or local models (Ollama, section 27), and switch to frontier models only for final evals. Set a spending limit with every provider and cloud account.
 - **Measure everything:** most items in sections 7 onwards should end with a short `BENCHMARK.md` table of numbers.
 
@@ -61,7 +66,7 @@ You can **build it**, **test it**, **evaluate it with real numbers**, **explain 
 
 ### One-time setup
 
-You need **Node 20+** (for the tracker), **Python 3.11+** and **Git**. Docker is optional, for the local databases.
+You need **Node 20+**, **Python 3.11+** and **Git**. Docker is optional, for the local databases.
 
 **Windows (PowerShell):**
 ```powershell
@@ -83,29 +88,45 @@ cp .env.example .env
 npm run today
 ```
 
-The tracker finds `.venv` on its own, so you don't need to activate it to run tests. To use `python` and `pip` directly, activate it first (`.venv\Scripts\Activate.ps1` on Windows, `source .venv/bin/activate` elsewhere).
+The tracker finds `.venv` on its own, so you don't need to activate it to run tests. Both languages read API keys from the same `.env`.
 
 Local Postgres + pgvector, Qdrant and Redis: `npm run services:up`. Add Neo4j with `docker compose --profile graph up -d`.
+
+### Two languages: Python and TypeScript
+
+Every question gets **one spec** (`README.md`) and a subfolder per language: `py/` and/or `ts/`.
+
+| Sections | Default languages | Why |
+|---|---|---|
+| Most of them (1–20, 22, 28–33, 35, 36) | Python **and** TypeScript | Model SDKs, LangChain/LangGraph, MCP and the AWS/Azure SDKs exist in both |
+| LlamaIndex & Haystack, multi-agent frameworks, DSPy & co., fine-tuning, serving (21, 23, 24, 26, 27) | Python | The tools are Python-first or Python-only |
+| TypeScript AI stack, AI UI (25, 34) | TypeScript | Vercel AI SDK, Mastra, front-end |
+| Capstones, system design, drills (37–39) | none | No fixed language |
+
+Pick something else per question with `--lang py`, `--lang ts` or `--lang both`, and add a language later with `add-lang`.
 
 ### The loop for every problem
 
 ```bash
-npm run new   -- hybrid retrieval      # 1. scaffold a folder from the question in this README
-                                       # 2. write the spec in its README.md, then the tests
-npm run t     -- hybrid-retrieval      # 3. run the tests; they re-run every time you save
-npm run bench -- hybrid-retrieval      #    benchmark problems: score + latency over eval/dataset.jsonl
-npm run play  -- naive-rag             #    run the module, or start the API on :8000 for service problems
-npm run log   -- hybrid-retrieval --result partial --time 75 --missed "no score normalization"
-                                       # 4. logs the attempt; updates NOTES.md, PROGRESS.md and this README
-npm run reset -- hybrid-retrieval      # 5. before the next attempt: archives your code (tests and evals stay)
-npm run today                          # what's due today and which ⭐ problem to start next
+npm run new      -- hybrid retrieval             # 1. scaffold a folder from the question (py/ + ts/ by default here)
+                                                 # 2. write the spec in its README.md, then the tests
+npm run t        -- hybrid-retrieval --lang py   # 3. run the tests; they re-run every time you save
+npm run bench    -- hybrid-retrieval --lang ts   #    benchmark problems: score + latency over eval/dataset.jsonl
+npm run play     -- naive-rag --lang py          #    run the module, or start the API (py :8000, ts :3000)
+npm run log      -- hybrid-retrieval --lang py --result partial --time 75 --missed "no score normalization"
+                                                 # 4. logs the attempt; updates NOTES.md, PROGRESS.md and this README
+npm run reset    -- hybrid-retrieval --lang py   # 5. before the next attempt: archives your code (tests and evals stay)
+npm run add-lang -- haystack-pipeline ts         # add the other language to a question you've started
+npm run today                                    # what's due and which ⭐ problem to start next
 ```
 
+- **`--lang` is only needed when a question has both languages.** With one, the tracker picks it.
+- **Every attempt is recorded** in the problem's `NOTES.md` and in `PROGRESS.md`, with its language, date, time, result and what you missed.
+- **Mastered:** your first `pass` in a language marks that language mastered. Mastery is tracked separately for each language.
+- **Done (the checkbox):** ticked when every language you chose for that question is mastered.
+- **Retries:** a failed or partial attempt comes due again after 3 days (`npm run today` shows it).
 - **Finding a question:** `npm run new` takes any words from the question. If several match, it lists them so you can add a word.
-- **Spacing:** attempt 2 is due 3 days after attempt 1; attempt 3 is due 10 days after attempt 2.
-- **Mastered:** a `pass` on attempt 3 or later. That ticks the checkbox here.
-- **Wrong template?** Add `--type py|bench|service|js|cloud|capstone|design|drill` to `npm run new`.
-- **Tests that call real APIs** are marked `@pytest.mark.live` and skipped unless `RUN_LIVE=1`, so normal test runs are free. Use `common.fake_llm.FakeLLM` and `common.fake_embed.fake_embed` everywhere else.
+- **Tests that call real APIs** are skipped unless `RUN_LIVE=1`, so normal test runs are free: `@pytest.mark.live` in Python, the `live(...)` helper in TypeScript. Everywhere else use the fakes: `common.fake_llm.FakeLLM` / `common.fake_embed.fake_embed` in Python, `FakeLLM` / `fakeEmbed` from `@common/fake-llm` and `@common/fake-embed` in TypeScript.
 
 ### Repository structure
 
@@ -126,27 +147,37 @@ ai-engineering-leetcode/
 ├── 11-capstones/        section 37
 ├── 12-system-design/    section 38
 ├── 13-drills/           section 39
-├── _templates/          one template per problem type
-├── common/              FakeLLM and fake embeddings for offline tests
-├── scripts/             the tracker (fl.mjs)
+├── _templates/          one template per problem kind, with shared/, py/ and ts/ parts
+├── common/              FakeLLM and fake embeddings for offline tests (Python and TypeScript)
+├── scripts/             the tracker (fl.mjs + tracker.config.mjs)
 ├── PROGRESS.md          every attempt you've logged
 └── README.md            this file — checkboxes and progress update automatically
 ```
 
 ### What each problem folder looks like
 
-| Template | Used for | Files |
-|---|---|---|
-| `py` | Most implementation problems | `<name>.py`, `test_<name>.py` |
-| `bench` | Anything you should measure: vectors, chunking, retrieval, evals, serving | the `py` files + `bench.py`, `eval/dataset.jsonl`, `BENCHMARK.md` |
-| `service` | RAG systems and platform/gateway builds | FastAPI app in `<name>.py`, `test_<name>.py` |
-| `js` | TypeScript stack and AI UI | `<name>.js`, `<name>.test.js` (Vitest) |
-| `cloud` | AWS and Azure | app code + tests, `infra/`, `COST.md`, `TEARDOWN.md` |
-| `capstone` | POC → enterprise projects | stage checklist, `ARCHITECTURE.md`, `EVALS.md`, `RUNBOOK.md`, `src/` |
-| `design` | AI system design | `design.md` (API, architecture, models, evals, safety, cost) |
-| `drill` | Incident drills | investigation log, `POSTMORTEM.md` |
+```
+03-rag/001-hybrid-retrieval/
+├── README.md          ← one spec for both languages
+├── NOTES.md           ← every attempt, per language
+├── BENCHMARK.md       ← numbers from both languages (benchmark problems)
+├── eval/dataset.jsonl ← one eval set, shared
+├── meta.json          ← used by the tracker
+├── py/                ← hybrid_retrieval.py, test_hybrid_retrieval.py, bench.py   (pytest)
+└── ts/                ← hybrid-retrieval.ts, hybrid-retrieval.test.ts, bench.ts   (Vitest)
+```
 
-Every folder also gets `README.md` (your spec), `NOTES.md` (attempt log and mistakes) and `meta.json` (used by the tracker). After `npm run reset`, earlier attempts live in `attempts/attempt-N/`.
+| Kind | Used for | Python (`py/`) | TypeScript (`ts/`) |
+|---|---|---|---|
+| `code` | Most implementation problems | `<name>.py`, `test_<name>.py` | `<name>.ts`, `<name>.test.ts` |
+| `bench` | Anything to measure: vectors, chunking, retrieval, evals, serving | + `bench.py` | + `bench.ts` |
+| `service` | RAG systems, platform and gateway builds | FastAPI app + test | `src/app.ts`, `src/server.ts`, `tests/` (Express + Supertest) |
+| `cloud` | AWS and Azure | SDK code + test | SDK code + test (`infra/`, `COST.md`, `TEARDOWN.md` shared) |
+| `capstone` | POC → enterprise projects | – | – (stage checklist, `ARCHITECTURE.md`, `EVALS.md`, `RUNBOOK.md`, `src/`) |
+| `design` | AI system design | – | – (`design.md`) |
+| `drill` | Incident drills | – | – (investigation log, `POSTMORTEM.md`) |
+
+After `npm run reset`, earlier attempts live in `<lang>/attempts/attempt-N/`. Problems you started before two-language support keep their files in the folder root; they still work, and `add-lang` adds the other language next to them.
 
 ---
 
@@ -699,7 +730,7 @@ Build the primitive by hand first (Parts A–D), then rebuild it with the framew
 - [ ] 🆕 Build a chain with LangChain Expression Language (LCEL)
 - [ ] 🆕 Build a RAG chain with LangChain retrievers and output parsers
 - [ ] 🆕 Build a LangChain agent with custom tools
-- [ ] 🆕 Build a stateful agent graph in LangGraph ⭐
+- [ ] 🆕 Build a stateful agent graph in LangGraph ⭐ <!--track--> · [📂](06-frameworks/001-stateful-agent-graph-in-langgraph) py ⚪
 - [ ] 🆕 Add a LangGraph checkpointer (SQLite or Postgres) and resume a thread
 - [ ] 🆕 Build human-in-the-loop with LangGraph interrupts ⭐
 - [ ] 🆕 Build LangGraph subgraphs
@@ -1043,21 +1074,21 @@ Generated by the tracker — don't edit by hand. The full attempt history is in 
 
 <!-- progress:start -->
 
-| Area | Total | Started | Attempt 1 | Attempt 2 | Mastered | Progress |
-|---|---|---|---|---|---|---|
-| LLM foundations (1–4) | 71 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
-| Retrieval & RAG (5–10) | 106 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
-| Evaluation (11–12) | 32 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
-| Agents (13–19) | 117 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
-| Frameworks (20–25) | 45 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
-| Models (26–28) | 32 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
-| Production (29–34) | 67 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
-| Cloud: AWS & Azure (35–36) | 47 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
-| Capstones, design & drills (37–39) | 38 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
-| ⭐ Starred questions | 107 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
-| **Total** | **555** | **0** | **0** | **0** | **0** | ░░░░░░░░░░ 0% |
+| Area | Total | Started | Attempts | Mastered (py) | Mastered (ts) | ✅ Done | Progress |
+|---|---|---|---|---|---|---|---|
+| LLM foundations (1–4) | 71 | 0 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
+| Retrieval & RAG (5–10) | 106 | 0 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
+| Evaluation (11–12) | 32 | 0 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
+| Agents (13–19) | 117 | 0 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
+| Frameworks (20–25) | 45 | 1 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
+| Models (26–28) | 32 | 0 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
+| Production (29–34) | 67 | 0 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
+| Cloud: AWS & Azure (35–36) | 47 | 0 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
+| Capstones, design & drills (37–39) | 38 | 0 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
+| ⭐ Starred questions | 107 | 1 | 0 | 0 | 0 | 0 | ░░░░░░░░░░ 0% |
+| **Total** | **555** | **1** | **0** | **0** | **0** | **0** | ░░░░░░░░░░ 0% |
 
-_Last synced 2026-10-09 by `npm run sync`._
+_✅ Done = mastered in every language you chose for that question. Last synced 2026-10-13 by `npm run sync`._
 
 <!-- progress:end -->
 

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "new": "node scripts/fl.mjs new",
+    "add-lang": "node scripts/fl.mjs add-lang",
     "t": "node scripts/fl.mjs test",
     "play": "node scripts/fl.mjs play",
     "bench": "node scripts/fl.mjs bench",
@@ -15,10 +16,21 @@
     "reset": "node scripts/fl.mjs reset",
     "today": "node scripts/fl.mjs today",
     "sync": "node scripts/fl.mjs sync",
+    "test": "vitest run",
     "services:up": "docker compose up -d",
     "services:down": "docker compose down"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.5",
+    "@types/supertest": "^7.2.1",
+    "dotenv": "^18.0.7",
+    "supertest": "^7.3.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
     "vitest": "^5.0.3"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
   }
 }
