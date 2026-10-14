@@ -1,0 +1,27 @@
+{
+  "question": "Build a LangGraph multi-agent supervisor",
+  "key": "build a langgraph multi agent supervisor",
+  "section": 20,
+  "kind": "code",
+  "slug": "langgraph-multi-agent-supervisor",
+  "module": "langgraph_multi_agent_supervisor",
+  "created": "2026-10-14",
+  "langs": {
+    "py": {
+      "dir": "py",
+      "attempts": [
+        {
+          "n": 1,
+          "date": "2026-10-14",
+          "minutes": 120,
+          "result": "partial",
+          "missed": "needed hints for response type and accessing"
+        }
+      ]
+    },
+    "ts": {
+      "dir": "ts",
+      "attempts": []
+    }
+  }
+}
