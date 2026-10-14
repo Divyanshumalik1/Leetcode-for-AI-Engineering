@@ -10,7 +10,15 @@
   "langs": {
     "py": {
       "dir": ".",
-      "attempts": []
+      "attempts": [
+        {
+          "n": 1,
+          "date": "2026-10-14",
+          "minutes": 120,
+          "result": "partial",
+          "missed": ""
+        }
+      ]
     }
   }
 }

@@ -5,6 +5,7 @@
 
 | # | Date | Time | Result | Missed |
 |---|---|---|---|---|
+| 1 | 2026-10-14 | 120 min | 🟡 partial (py) | – |
 <!-- attempts -->
 
 ## What I missed in my spec
