@@ -18,7 +18,7 @@
 - answer: `{"role": "assistant", "content": answer}`
 
 ## Requirements
-- [ ] Graph has an `agent` node and a `tools` node: START → agent → (tools → agent)* → END
+- [DONE] Graph has an `agent` node and a `tools` node: START → agent → (tools → agent)* → END
 - [ ] State keeps `messages` (accumulates), `tool_log` (accumulates), `steps`, `final_answer`
 - [ ] A direct answer ends the run: `final_answer` set, `steps == 1`
 - [ ] A tool request runs the tool and feeds the result back to the model on its next call
