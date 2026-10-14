@@ -19,15 +19,15 @@
 
 ## Requirements
 - [DONE] Graph has an `agent` node and a `tools` node: START → agent → (tools → agent)* → END
-- [ ] State keeps `messages` (accumulates), `tool_log` (accumulates), `steps`, `final_answer`
-- [ ] A direct answer ends the run: `final_answer` set, `steps == 1`
-- [ ] A tool request runs the tool and feeds the result back to the model on its next call
-- [ ] `tool_log` gets `{"name", "args", "ok"}` for every executed tool
-- [ ] Unknown tool, tool exception or bad arguments → tool message starting `"Error:"`, `ok: False`, and the agent keeps going
-- [ ] A reply with neither `answer` nor `tool` → stop with `final_answer` starting `"Error:"`
-- [ ] Step limit: the model is called at most `max_steps` times. If it still wants a tool on the last call, don't run it; stop with `STEP_LIMIT_MESSAGE`.
-- [ ] `max_steps=20` must work (LangGraph's default recursion limit is 25 graph steps)
-- [ ] `graph.stream(..., stream_mode="updates")` yields node names in order: agent, tools, agent
+- [DONE] State keeps `messages` (accumulates), `tool_log` (accumulates), `steps`, `final_answer`
+- [DONE] A direct answer ends the run: `final_answer` set, `steps == 1`
+- [DONE] A tool request runs the tool and feeds the result back to the model on its next call
+- [DONE] `tool_log` gets `{"name", "args", "ok"}` for every executed tool
+- [DONE] Unknown tool, tool exception or bad arguments → tool message starting `"Error:"`, `ok: False`, and the agent keeps going
+- [DONE] A reply with neither `answer` nor `tool` → stop with `final_answer` starting `"Error:"`
+- [DONE] Step limit: the model is called at most `max_steps` times. If it still wants a tool on the last call, don't run it; stop with `STEP_LIMIT_MESSAGE`.
+- [DONE] `max_steps=20` must work (LangGraph's default recursion limit is 25 graph steps)
+- [DONE] `graph.stream(..., stream_mode="updates")` yields node names in order: agent, tools, agent
 
 ## Follow-ups (attempt 3)
 - Add a checkpointer and continue the same conversation across two `ask` calls (next item in the bank)
